@@ -4,27 +4,64 @@ import argparse
 import gym
 import gym_minos
 
+import time
+import sys
+import traceback
+
 from minos.config import sim_config
 from minos.config.sim_args import add_sim_args_basic
 
+import scipy.misc
+from PIL import Image
+import numpy as np
+
+actions_dict = {'forwards': [0, 0, 1],  'turnLeft': [1, 0, 0], 'turnRight':[0, 1, 0], 'idle':[0, 0, 0]};
 
 def run_gym(sim_args):
     env = gym.make('indoor-v0')
     env.configure(sim_args)
-    print('Running MINOS gym example')
-    for i_episode in range(20):
-        print('Starting episode %d' % i_episode)
-        observation = env.reset()
-        done = False
-        num_steps = 0
-        while not done:
-            env.render()
-            action = env.action_space.sample()
-            observation, reward, done, info = env.step(action)
-            num_steps += 1
-            if done:
-                print("Episode finished after {} steps; success={}".format(num_steps, observation['success']))
-                break
+    try:
+        print('Running MINOS gym example')
+        for i_episode in range(100):
+            print('Starting episode %d' % i_episode)
+            observation = env.reset()
+            done = False
+            num_steps = 0
+            name = sim_args['env_config'].split('_')[-1]
+            while not done:
+                img_prefix = 'pics/'
+                actions_str =['idle'] + ['turnRight']*3
+                for action_i, action_str in enumerate(actions_str):
+                    env.render(mode='human')
+                    time.sleep(1)
+                    observation, reward, done, info = env.step(actions_dict[action_str])
+                    img = observation['observation']['sensors']['color'].get('data')
+                    #print(img, img.shape)
+                    #im = Image.fromarray(img)
+                    #im.save(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '.png')
+                    scipy.misc.imsave(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '.png', img)
+                    np.savetxt(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '1.txt', img[:, :, 0].astype(np.uint),  fmt='%d')
+                    np.savetxt(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '2.txt', img[:, :, 1].astype(np.uint),  fmt='%d')
+                    np.savetxt(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '3.txt', img[:, :, 2].astype(np.uint),  fmt='%d')
+                    depth = observation['observation']['sensors']['depth']['data']
+                    #print(depth.shape)
+                    depth *= (255.0 / depth.max())  # naive rescaling for visualization
+                    depth = depth.astype(np.uint8)
+                    scipy.misc.toimage(depth, cmin=0, cmax=255).save(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) +'depth' + '.png')
+                    if 'suncg'==name:
+                        pass
+                        #objectType = observation['observation']['sensors']['objectType'].get('data_viz')
+                        #print(objectType)
+                        #scipy.misc.toimage(objectType, cmin=0, cmax=objectType[:,:,0:2].max()).save(name + '_' +img_prefix + str(i_episode)+ '_' + str(action_i)  + 'objectType' + '.png')
+                num_steps += 1
+                done = True
+                # if done:
+                #     print("Episode finished after {} steps; success={}".format(num_steps, observation['success']))
+                #     break
+    except Exception as e:
+        print(traceback.format_exc())
+    env._close()
+
 
 
 def main():
@@ -35,6 +72,7 @@ def main():
                         help='Environment configuration file')
     args = parser.parse_args()
     sim_args = sim_config.get(args.env_config, vars(args))
+
     run_gym(sim_args)
 
 

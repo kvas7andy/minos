@@ -65,6 +65,10 @@ class RoomSimulator:
                 path_start_dist = -1.0
             path_numdoors = len(sconf['shortestPath'].get('doors', [])) if has_spath else 0
             path_numrooms = len(sconf['shortestPath'].get('rooms', [])) if has_spath else 0
+            print('%s:EPISODE:%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s'
+                  % ('Sim_Id', 'N_episodes', 'Scene_id', 'Time_taken', 'Num_steps_this_episode',
+                     'Success', 'Steps_this_episode per_sec', 'Start_dist', 'End_dist', 'Path_start_dist',
+                     'Path_numdoors', 'Path_numrooms'))
             print('%s:EPISODE:%d,%s,%f,%d,%s,%f,%f,%f,%f,%d,%d'
                   % (self.sim.id, self.num_episodes, self.scene_id, time_taken, self.num_steps_this_episode,
                      success, self.num_steps_this_episode / time_taken, self.start_dist, end_dist, path_start_dist,

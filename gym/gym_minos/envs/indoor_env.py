@@ -11,7 +11,9 @@ import numpy as np
 # It may make sense to wrap the Simulator and have several prespecified configurations
 #  (or have a base IndoorEnv and specific scenarios on top of it)
 from minos.lib.RoomSimulator import RoomSimulator
+import signal
 
+import sys
 
 class IndoorEnv(gym.Env):
     metadata = {'render.modes': ['human', 'rgb_array']}
@@ -23,6 +25,7 @@ class IndoorEnv(gym.Env):
 
     def configure(self, sim_args):
         self._sim = RoomSimulator(sim_args)
+        signal.signal(signal.SIGINT, self.signal_handler)
         self._sim_obs_space = self._sim.get_observation_space(sim_args['outputs'])
         #self.action_space = spaces.Discrete(self._sim.num_buttons)
         self.action_space = spaces.MultiBinary(self._sim.num_buttons)
@@ -126,3 +129,8 @@ class IndoorEnv(gym.Env):
     def _close(self):
         if self._sim is not None:
             self._sim.close_game()
+
+    def signal_handler(self, signal, frame):
+        print('You pressed Ctrl+C!')
+        self._close()
+        sys.exit()
