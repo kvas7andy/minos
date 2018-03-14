@@ -36,18 +36,14 @@ def run_gym(sim_args):
                     time.sleep(1)
                     observation, reward, done, info = env.step(actions_dict[action_str])
                     img = observation['observation']['sensors']['color'].get('data')
-                    #print(img, img.shape)
-                    #im = Image.fromarray(img)
-                    #im.save(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '.png')
-                    scipy.misc.imsave(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '.png', img)
-                    np.savetxt(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '1.txt', img[:, :, 0].astype(np.uint),  fmt='%d')
-                    np.savetxt(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '2.txt', img[:, :, 1].astype(np.uint),  fmt='%d')
-                    np.savetxt(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + 'img' + '3.txt', img[:, :, 2].astype(np.uint),  fmt='%d')
+                    img = img.reshape((img.shape[1], img.shape[0], img.shape[2]))
+                    scipy.misc.imsave(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + '_img' + '.png', img)
                     depth = observation['observation']['sensors']['depth']['data']
+                    depth = depth.reshape((depth.shape[1], depth.shape[0]))
                     #print(depth.shape)
                     depth *= (255.0 / depth.max())  # naive rescaling for visualization
                     depth = depth.astype(np.uint8)
-                    scipy.misc.toimage(depth, cmin=0, cmax=255).save(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) +'depth' + '.png')
+                    scipy.misc.toimage(depth, cmin=0, cmax=255).save(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) +'_depth' + '.png')
                     if 'suncg'==name:
                         pass
                         #objectType = observation['observation']['sensors']['objectType'].get('data_viz')
