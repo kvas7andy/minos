@@ -23,6 +23,7 @@ def run_gym(sim_args):
     try:
         print('Running MINOS gym example')
         for i_episode in range(100):
+            time.sleep(1)
             print('Starting episode %d' % i_episode)
             observation = env.reset()
             done = False
@@ -30,11 +31,12 @@ def run_gym(sim_args):
             name = sim_args['env_config'].split('_')[-1]
             while not done:
                 img_prefix = 'pics/'
-                actions_str =['idle'] + ['turnRight']*3
+                actions_str = [None] + ['turnRight']*5
                 for action_i, action_str in enumerate(actions_str):
+                    if action_str is not None:
+                        observation, reward, done, info = env.step(actions_dict[action_str])
                     env.render(mode='human')
                     time.sleep(1)
-                    observation, reward, done, info = env.step(actions_dict[action_str])
                     img = observation['observation']['sensors']['color'].get('data')
                     img = img.reshape((img.shape[1], img.shape[0], img.shape[2]))
                     scipy.misc.imsave(name + '_' +img_prefix + str(i_episode) + '_' + str(action_i) + '_img' + '.png', img)
@@ -56,7 +58,8 @@ def run_gym(sim_args):
                 #     break
     except Exception as e:
         print(traceback.format_exc())
-    env._close()
+    finally:
+        env._close()
 
 
 
