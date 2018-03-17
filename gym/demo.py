@@ -9,7 +9,7 @@ import sys
 import traceback
 
 from minos.config import sim_config
-from minos.config.sim_args import add_sim_args_basic
+from minos.config.sim_args import parse_sim_args
 
 import scipy.misc
 from PIL import Image
@@ -65,14 +65,8 @@ def run_gym(sim_args):
 
 def main():
     parser = argparse.ArgumentParser(description='MINOS gym wrapper')
-    add_sim_args_basic(parser)
-    parser.add_argument('--env_config',
-                        default='objectgoal_suncg_sf',
-                        help='Environment configuration file')
-    args = parser.parse_args()
-    sim_args = sim_config.get(args.env_config, vars(args))
-
-    run_gym(sim_args)
+    args = parse_sim_args(parser)
+    run_gym(args)
 
 
 if __name__ == "__main__":
