@@ -9,8 +9,7 @@ config = {
     'scenes_file': '../data/scenes.multiroom.csv',
     'states_file': '../data/episode_states.suncg.csv.bz2',
     'scene': {'arch_only': False, 'retexture': True, 'empty_room': True, 'dataset': 'p5dScene'},
-    'scene_filter': lambda s: 2 < s['nrooms'] < 6 or s['id'] != 'cf85f3aafa09bb6fc7c228835ef25a33' \
-                              or s['id'] != '0c818d79073de53af1b620d950f0ad75',
+    'scene_filter': lambda s: 2 < s['nrooms'] < 6,
     'episode_filter': lambda e: e['pathNumDoors'] > 1,
     'objective_size': 4 # For UNREAL
 }
