@@ -23,7 +23,6 @@ actions_dict = {'forwards': [0, 0, 1],  'turnLeft': [1, 0, 0], 'turnRight':[0, 1
 def run_gym(sim_args):
     env = gym.make('indoor-v0')
     env.configure(sim_args)
-<<<<<<< HEAD
     try:
         print('Running MINOS gym example')
         for i_episode in range(100):
