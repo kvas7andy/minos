@@ -33,7 +33,7 @@ def get_scene_params(arch_only=False, retexture=False, empty_room=False, dataset
 
 sim_defaults = {
     'simulator': 'room_simulator',
-    'num_simulators': 1,
+    'num_simulators': 1,  
 
     # Shared RoomSimulator and DoomSimulator params
     'modalities': ['color', 'measurements'],
@@ -72,6 +72,7 @@ sim_defaults = {
     'episodes_per_scene_train': 10,  # DFP param
     'episode_schedule': 'train',  # DFP param
     'measure_fun': measures.MeasureDistDirTime(),
+    'verbose':3,
 
     # these members are non-serializable
     'nonserializable': ['measure_fun', 'scene_filter', 'episode_filter']

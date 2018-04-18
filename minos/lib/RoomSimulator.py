@@ -24,6 +24,7 @@ class RoomSimulator:
         self.curr_schedule = params.get('episode_schedule', 'train')
         self.available_controls = params.get('available_controls',
                                              ['turnLeft', 'turnRight', 'forwards'])
+        self.verbose = int(params['verbose'])
         self.num_meas = self.measure_fun.num_meas
         self.params = params
 
@@ -61,6 +62,7 @@ class RoomSimulator:
                 path_start_dist = -1.0
             path_numdoors = len(sconf['shortestPath'].get('doors', [])) if has_spath else 0
             path_numrooms = len(sconf['shortestPath'].get('rooms', [])) if has_spath else 0
+
             print('%s:EPISODE:%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s'
                   % ('Sim_Id', 'N_episodes', 'Scene_id', 'Time_taken', 'Num_steps_this_episode',
                      'Success', 'Steps_this_episode per_sec', 'Start_dist', 'End_dist', 'Path_start_dist',
@@ -172,7 +174,7 @@ class RoomSimulator:
             if force or self.num_steps_this_episode > 0:
                 # Start new episode if previous episode has been acted in or forcing reset
                 #print('Reset: end episode')
-                self.end_episode(False, print_episode_stats=True)
+                self.end_episode(False, print_episode_stats=self.verbose > 1)
                 episode_info = self.new_episode()
             else:
                 episode_info = self.start_config_this_episode
@@ -199,7 +201,7 @@ class RoomSimulator:
         response = self._augment_response(response, last_observation)
 
         if response['terminals']:
-            self.end_episode(response['success'], print_episode_stats=True)
+            self.end_episode(response['success'], print_episode_stats=self.verbose > 1)
 
         return response
 
