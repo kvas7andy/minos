@@ -11,5 +11,7 @@ config = {
     'scene': {'arch_only': False, 'retexture': True, 'empty_room': False, 'dataset': 'p5dScene'},
     'scene_filter': lambda s: 2 < s['nrooms'] < 6 and s['id'] != '58306be361138410c5383bfc6af2b843',
     'episode_filter': lambda e: e['pathNumDoors'] > 1,
+    'verbose': 1,
     'objective_size': 4 # For UNREAL
 }
+x
