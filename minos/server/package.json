@@ -12,6 +12,7 @@
     "async": "^2.5.0",
     "better-require": "^0.0.3",
     "commander": "^2.9.0",
+    "node": "^9.5.0",
     "node-wav": "^0.0.2",
     "seedrandom": "^2.4.2",
     "shelljs": "^0.7.8",

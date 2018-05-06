@@ -12,6 +12,6 @@ config = {
     'scene_filter': lambda s: 2 < s['nrooms'] < 6,
     'episode_filter': lambda e: e['pathNumDoors'] > 1,
     'objective_size': 4, # For UNREAL,
-    'width': 84,
-    'height': 84
+    'width': 256,
+    'height': 256
 }

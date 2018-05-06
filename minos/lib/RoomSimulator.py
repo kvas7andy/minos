@@ -166,6 +166,7 @@ class RoomSimulator:
             self.sim.close()
             self.sim.kill()
             self.initialized = False
+            #assert False, """STOP!"""
 
     def reset(self, force=False):
         episode_info = self.init()

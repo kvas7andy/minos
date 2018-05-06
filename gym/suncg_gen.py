@@ -26,17 +26,18 @@ def run_gym(sim_args):
     env = gym.make('indoor-v0')
     env.configure(sim_args)
     try:
+        root_dir = '/root/hdd/data/'
         name = 'mp3d'  if 'mp3d' in sim_args['env_config'] else 'suncg'
         w, h = sim_args['width'], sim_args['height']
         img_suffix = 'pics_{0}x{1}'.format(w, h)
-        img_dir = name + '_' + img_suffix
+        img_dir = os.path.join(root_dir, name + '_' + img_suffix)
         if not os.path.exists(img_dir):
             os.makedirs(img_dir)
         print('Running MINOS gym generator of semantic segmentation')
-        actions_str = [None] + ['turnRight']*5
-        offset = 15098
-        gen_offset = 189823 // 4
-        for i_episode in range(offset, offset + 10**6 // 5 - gen_offset):
+        actions_str = ['idle'] + ['turnRight']*3
+        offset = 0
+        gen_offset = 0 // 4
+        for i_episode in range(offset, offset + 500*10**3 // 4 - gen_offset):
             if i_episode % 250:
                 print('Starting episode %d' % i_episode)
                 sys.stdout.flush()
@@ -51,7 +52,7 @@ def run_gym(sim_args):
                     #time.sleep(1)
                     if sim_args.save_observations:
                         save_observations(observation, sim_args,
-                             prename = os.path.join(img_dir, str(i_episode) + '_' + str(action_i) + '_'))
+                             prename = os.path.join(img_dir, str(env._sim.scene_id) + '_' + str(i_episode) + '_' + str(action_i) + '_'))
                 num_steps += 1
                 done = True
                 # if done:
@@ -65,13 +66,14 @@ def run_gym(sim_args):
 
 def save_observations(observation, sim_args, prename):
     if sim_args.observations.get('objectType'):
-        object_type = observation["observation"]["sensors"]["objectType"]["data"]
-        if len(np.unique(object_type[:, :, 2].astype(int))) < 3:
+        object_type = observation["observation"]["sensors"]["objectType"]["data"][:, :, 2]
+        if len(np.unique(object_type)) < 3:
             print(prename + ' rejected!')
             sys.stdout.flush()
             return
-        object_type = object_type.reshape((object_type.shape[1], object_type.shape[0], object_type.shape[2]))
-        plt.imsave(prename + 'object_type_labels.png', object_type[:,:,2], cmap='Greys')
+        object_type = object_type.reshape((object_type.shape[1], object_type.shape[0]))
+        #np.savetxt(prename + 'object_type_labels.txt', object_type, fmt='%d')
+        scipy.misc.imsave(prename + 'object_type_labels.png', object_type)
         object_type = observation["observation"]["sensors"]["objectType"]["data_viz"]
         object_type = object_type.reshape((object_type.shape[1], object_type.shape[0], object_type.shape[2]))
         plt.imsave(prename + 'object_type.png', object_type)
