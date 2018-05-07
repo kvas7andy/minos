@@ -72,6 +72,7 @@ class Simulator:
             self.roomTypes = LabelMapping(params['roomtypes_file'], 'roomType', 0)
         else:
             self.roomTypes = None
+        print(params.get('objecttypes_file'))
         if params.get('objecttypes_file') is not None:
             self.objectTypes = LabelMapping(params['objecttypes_file'], 'objectType', 0)
         else:

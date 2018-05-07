@@ -1,0 +1,20 @@
+from minos.lib.util.measures import MeasureDistDirTime, MeasureGoalObjectType
+
+config = {
+    'task': 'object_goal',
+    'goal': {'categories': ['arch', 'door'], 'select': 'random', 'dist_from_bbox': True},
+    'observations': {'color': True, 'forces': False, 'audio': False, 'objectType': True, 'depth': False},
+    'frame_skip': 1,
+    'measure_fun': MeasureDistDirTime(),#MeasureGoalObjectType(),
+    'reward_type': 'dist_time',
+    'agent': {'radialClearance': 0.2},
+    'scenes_file': '../data/scenes.multiroom.csv',
+    'states_file': '../data/episode_states.suncg.csv.bz2',
+    'scene': {'arch_only': False, 'retexture': True, 'empty_room': False, 'dataset': 'p5dScene'},
+    'scene_filter': lambda s: 2 < s['nrooms'] < 6,
+    'episode_filter': lambda e: e['pathNumDoors'] > 1,
+    'objective_size': 4, # For UNREAL,
+    'objecttypes_file': '../../objectTypes_3x.csv',
+    'width': 128,
+    'height': 128
+}

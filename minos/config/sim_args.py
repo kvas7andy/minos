@@ -162,7 +162,7 @@ def add_sim_args(parser):
                         default=None, type=str,
                         help='Scene format to use')
     parser.add_argument('--roomtypes_file', help='File to use for room types')
-    parser.add_argument('--objecttypes_file', help='File to use for object types')
+    parser.add_argument('--objecttypes_file', type=str, help='File to use for object types')
     parser.add_argument('--verbose', type=int,
                         default=3,
                         help='Verbose strength: 0 - min, 3 - max')

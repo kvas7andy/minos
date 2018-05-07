@@ -167,7 +167,20 @@ class MeasureDistDirTime(MeasureDist):
     num_meas = MeasureDist.num_meas + 3
 
     def my_measure(self, observation, episode_info=None):
+        #print("Episode_info", episode_info, flush=True) # Print episode_info
+        #print("Velocity: ", observation.get('measurements').get('velocity'))
         dirs = observation.get('measurements').get('direction_to_goal')
+        time_spent = observation.get('time') / self.termination_time
+        return super().my_measure(observation) + [dirs[0], dirs[2], time_spent]
+
+
+class MeasureDistDirTimeVelocity(MeasureDist):
+    num_meas = MeasureDist.num_meas + 3
+
+    def my_measure(self, observation, episode_info=None):
+        print("episode_info", episode_info, flush=True)
+        dirs = observation.get('measurements').get('direction_to_goal')
+        vel = observation.get('measurements').get('velocity')
         time_spent = observation.get('time') / self.termination_time
         return super().my_measure(observation) + [dirs[0], dirs[2], time_spent]
 
@@ -249,6 +262,12 @@ class MeasureDistDirTimeDepthPred(MeasureDist):
 
 class MeasureGoalRoomType(Measure):
     def my_measure(self, observation, episode_info=None):
+        goalRoomType = episode_info['goal']['roomTypeEncoded']
+        return goalRoomType
+
+class MeasureGoalObjectType(Measure):
+    def my_measure(self, observation, episode_info=None):# ?? TODO return objectType of goal for current episode
+        print("episode_info['goal']", episode_info['goal'], flush=True)
         goalRoomType = episode_info['goal']['roomTypeEncoded']
         return goalRoomType
 

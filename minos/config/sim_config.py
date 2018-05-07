@@ -72,7 +72,12 @@ sim_defaults = {
     'episodes_per_scene_train': 10,  # DFP param
     'episode_schedule': 'train',  # DFP param
     'measure_fun': measures.MeasureDistDirTime(),
+
+    # additional by user and from defaults in code
     'verbose':3,
+    'objecttypes_file': '../../objectTypes.csv',
+    'available_controls': ['turnLeft', 'turnRight', 'forwards'],
+
 
     # these members are non-serializable
     'nonserializable': ['measure_fun', 'scene_filter', 'episode_filter']
@@ -101,7 +106,7 @@ def get(env_config, override_args=None, print_config=False):
                                         retexture=s.get('retexture', None),
                                         empty_room=s.get('empty_room', None),
                                         dataset=s.get('dataset', None))
-    for path in ['scenes_file', 'states_file', 'roomtypes_file']:
+    for path in ['scenes_file', 'states_file', 'roomtypes_file', 'objecttypes_file']:
         simargs[path] = resolve_relative_path(simargs[path])
     simargs['logdir'] = os.path.join('logs', time.strftime("%Y_%m_%d_%H_%M_%S"))
 

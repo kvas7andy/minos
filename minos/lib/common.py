@@ -93,9 +93,12 @@ def observation_to_reward(reward_type, observation, meas, term, success, last_ob
         curr_meas = observation['measurements']
         curr_time = observation['time']
         curr_dist = curr_meas['distance_to_goal'] if 'distance_to_goal' in curr_meas else 0
-        delta_time = last_time - curr_time
+        delta_time = last_time - curr_time # don't need frame_skip
         delta_dist = last_dist[0] - curr_dist[0]
         rwrd = delta_dist + delta_time
+        #if rwrd >= 0.05:
+        #    print("curr_dist:{}, last_dist:{}, delta_time: {}, delta_dist:{}, rwrd:{}".format(
+        #          curr_dist[0], last_dist[0], delta_time, delta_dist, rwrd))
         return rwrd
     elif reward_type == 'distpath_time':
         if last_observation is None:

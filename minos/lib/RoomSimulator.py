@@ -126,6 +126,9 @@ class RoomSimulator:
         # update our current scene id
         self.scene_id = ep_settings['scene_id']
 
+        # Print result
+        # print("result:", result, flush=True)
+
         # set starting dist to goal from last observation
         if result:
             if 'roomType' in result['goal'] and hasattr(self.sim, 'roomTypes'):
