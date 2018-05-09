@@ -6,6 +6,7 @@ class EpisodeScheduler:
     def __init__(self, state_set, schedule, seed, num_episodes_per_scene):
         if schedule != 'random' and schedule != 'fixed':
             raise Exception('Invalid schedule type: ' + schedule)
+        print('>>>seed: ', seed)
         self.random = random.Random(seed)
         self.state_set = state_set
         self.schedule = schedule

@@ -1,11 +1,11 @@
-from minos.lib.util.measures import MeasureDistDirTime#, MeasureGoalObjectType
+from minos.lib.util.measures import MeasureGoalRoomType
 
 config = {
-    'task': 'object_goal',
-    'goal': {'categories': ['arch', 'door'], 'select': 'random', 'dist_from_bbox': True},
-    'observations': {'color': True, 'forces': False, 'audio': False, 'objectType': False, 'depth': False},
+    'task': 'room_goal',
+    'goal': {'minRooms': 1, 'roomTypes': 'any', 'select': 'random'},
+    'observations': {'color': True, 'forces': False, 'audio': False, 'objectType': True, 'depth': False},
     'frame_skip': 1,
-    'measure_fun': MeasureDistDirTime(),#MeasureGoalObjectType(),
+    'measure_fun': MeasureGoalRoomType(),
     'reward_type': 'dist_time',
     'agent': {'radialClearance': 0.2},
     'scenes_file': '../data/scenes.multiroom.csv',
@@ -13,8 +13,8 @@ config = {
     'scene': {'arch_only': False, 'retexture': True, 'empty_room': False, 'dataset': 'p5dScene'},
     'scene_filter': lambda s: 2 < s['nrooms'] < 6,
     'episode_filter': lambda e: e['pathNumDoors'] > 1,
-    'objective_size': 4, # For UNREAL,
+    'objective_size': 9, # For UNREAL
     'objecttypes_file': '../../objectTypes_3x.csv',
-    'width': 84,
-    'height': 84
+    'width': 88,
+    'height': 88
 }

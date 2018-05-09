@@ -100,6 +100,15 @@ def observation_to_reward(reward_type, observation, meas, term, success, last_ob
         #    print("curr_dist:{}, last_dist:{}, delta_time: {}, delta_dist:{}, rwrd:{}".format(
         #          curr_dist[0], last_dist[0], delta_time, delta_dist, rwrd))
         return rwrd
+    elif reward_type == 'time':
+        if last_observation is None:
+            return 0
+        last_obs = last_observation['observation']
+        last_time = last_obs['time']
+        curr_time = observation['time']
+        delta_time = last_time - curr_time  # don't need frame_skip
+        rwrd = delta_time
+        return rwrd
     elif reward_type == 'distpath_time':
         if last_observation is None:
             return 0

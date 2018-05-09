@@ -33,7 +33,8 @@ def get_scene_params(arch_only=False, retexture=False, empty_room=False, dataset
 
 sim_defaults = {
     'simulator': 'room_simulator',
-    'num_simulators': 1,  
+    'num_simulators': 1,
+    'seed': 0xA3C,
 
     # Shared RoomSimulator and DoomSimulator params
     'modalities': ['color', 'measurements'],

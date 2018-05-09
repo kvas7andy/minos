@@ -266,7 +266,7 @@ class MeasureGoalRoomType(Measure):
         return goalRoomType
 
 class MeasureGoalObjectType(Measure):
-    def my_measure(self, observation, episode_info=None):# ?? TODO return objectType of goal for current episode
+    def my_measure(self, observation, episode_info=None):# ?? TODO (can they do?) return objectType of goal for current episode
         print("episode_info['goal']", episode_info['goal'], flush=True)
         goalRoomType = episode_info['goal']['roomTypeEncoded']
         return goalRoomType
