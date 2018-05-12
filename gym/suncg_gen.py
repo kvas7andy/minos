@@ -90,7 +90,7 @@ def save_observations(observation, sim_args, prename):
         os.makedirs(dir_name, exist_ok=True)
         color = observation["observation"]["sensors"]["color"]["data"]
         color = color.reshape((color.shape[1], color.shape[0], color.shape[2]))
-        dir_name = os.path.join(base_dir, 'color', img_name)
+        dir_name = os.path.join(base_dir, 'color')
         plt.imsave(os.path.join(dir_name, img_name +'color.png'), color)
 
     if sim_args.observations.get('depth'):
