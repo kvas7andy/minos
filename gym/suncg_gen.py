@@ -52,7 +52,7 @@ def run_gym(sim_args):
                     #time.sleep(1)
                     if sim_args.save_observations:
                         save_observations(observation, sim_args,
-                             prename = os.path.join(img_dir, str(env._sim.scene_id) + '_' + str(i_episode) + '_' + str(action_i) + '_'))
+                             prename=os.path.join(img_dir, str(env._sim.scene_id) + '_' + str(i_episode) + '_' + str(action_i) + '_'))
                 num_steps += 1
                 done = True
                 # if done:
@@ -65,8 +65,8 @@ def run_gym(sim_args):
 
 
 def save_observations(observation, sim_args, prename):
-    base_dir = '/'.join(prename.join('/')[:-1])
-    img_name = prename.join('/')[-1]
+    base_dir = '/'.join(prename.split('/')[:-1])
+    img_name = prename.split('/')[-1]
     if sim_args.observations.get('objectType'):
         object_type = observation["observation"]["sensors"]["objectType"]["data"][:, :, 2]
         if len(np.unique(object_type)) < 3:
