@@ -80,6 +80,8 @@ def save_observations(observation, sim_args, prename):
         scipy.misc.imsave(os.path.join(dir_name, img_name + 'object_type_labels.png'), object_type)
         object_type = observation["observation"]["sensors"]["objectType"]["data_viz"]
         object_type = object_type.reshape((object_type.shape[1], object_type.shape[0], object_type.shape[2]))
+        dir_name = os.path.join(base_dir, 'object_type')
+        os.makedirs(dir_name, exist_ok=True)
         plt.imsave(os.path.join(dir_name, img_name + 'object_type.png'), object_type)
     if sim_args.only_labels:
         return
