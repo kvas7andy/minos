@@ -77,7 +77,8 @@ def save_observations(observation, sim_args, prename):
         object_type = observation["observation"]["sensors"]["objectType"]["data_viz"]
         object_type = object_type.reshape((object_type.shape[1], object_type.shape[0], object_type.shape[2]))
         plt.imsave(prename + 'object_type.png', object_type)
-
+    if sim_args.only_labels:
+        return
     if sim_args.observations.get('color'):
         color = observation["observation"]["sensors"]["color"]["data"]
         color = color.reshape((color.shape[1], color.shape[0], color.shape[2]))
@@ -117,6 +118,9 @@ def save_observations(observation, sim_args, prename):
 def main():
     parser = argparse.ArgumentParser(description='MINOS gym wrapper')
     parser.add_argument('--save_observations', action='store_true',
+                        default=False,
+                        help='Save sensor observations at each step to images')
+    parser.add_argument('--only_labels', action='store_true',
                         default=False,
                         help='Save sensor observations at each step to images')
     args = parse_sim_args(parser)
