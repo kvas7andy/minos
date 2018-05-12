@@ -65,6 +65,8 @@ def run_gym(sim_args):
 
 
 def save_observations(observation, sim_args, prename):
+    base_dir = '/'.join(prename.join('/')[:-1])
+    img_name = prename.join('/')[-1]
     if sim_args.observations.get('objectType'):
         object_type = observation["observation"]["sensors"]["objectType"]["data"][:, :, 2]
         if len(np.unique(object_type)) < 3:
@@ -73,16 +75,21 @@ def save_observations(observation, sim_args, prename):
             return
         object_type = object_type.reshape((object_type.shape[1], object_type.shape[0]))
         #np.savetxt(prename + 'object_type_labels.txt', object_type, fmt='%d')
-        scipy.misc.imsave(prename + 'object_type_labels.png', object_type)
+        dir_name = os.path.join(base_dir, 'labels')
+        os.makedirs(dir_name, exist_ok=True)
+        scipy.misc.imsave(os.path.join(dir_name, img_name + 'object_type_labels.png'), object_type)
         object_type = observation["observation"]["sensors"]["objectType"]["data_viz"]
         object_type = object_type.reshape((object_type.shape[1], object_type.shape[0], object_type.shape[2]))
-        plt.imsave(prename + 'object_type.png', object_type)
+        plt.imsave(os.path.join(dir_name, img_name + 'object_type.png'), object_type)
     if sim_args.only_labels:
         return
     if sim_args.observations.get('color'):
+        dir_name = os.path.join(base_dir, 'color')
+        os.makedirs(dir_name, exist_ok=True)
         color = observation["observation"]["sensors"]["color"]["data"]
         color = color.reshape((color.shape[1], color.shape[0], color.shape[2]))
-        plt.imsave(prename + 'color.png', color)
+        dir_name = os.path.join(base_dir, 'color', img_name)
+        plt.imsave(os.path.join(dir_name, img_name +'color.png'), color)
 
     if sim_args.observations.get('depth'):
         depth = observation["observation"]["sensors"]["depth"]["data"]
