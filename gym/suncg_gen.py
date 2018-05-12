@@ -37,7 +37,7 @@ def run_gym(sim_args):
         actions_str = ['idle'] + ['turnRight']*3
         offset = 0
         gen_offset = 0 // 4
-        for i_episode in range(offset, offset + 500*10**3 // 4 - gen_offset):
+        for i_episode in range(offset, offset + 20*10**3 // 4 - gen_offset):
             if i_episode % 250:
                 print('Starting episode %d' % i_episode)
                 sys.stdout.flush()
