@@ -28,7 +28,7 @@ class LabelMapping:
             rows = {}
             for row in reader:
                 row['index'] = int(row['index'])
-                rows[row[keyField]] = {'index':row['index'], 'objectType':row['objectType']}
+                rows[row[keyField]] = row#{'index':row['index'], 'objectType':row['objectType']}
             return rows
 
     @staticmethod
