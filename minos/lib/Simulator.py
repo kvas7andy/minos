@@ -187,7 +187,9 @@ class Simulator:
         self._rpcid = self._rpcid + 1
         rpc = RpcCall(self._sio, self._rpcid, self._logger)
         call = rpc.call(name, data, callback, seconds, check_wait=lambda: self.running)
-        print("_rpc call {} lasted {}".format(str(name), time.time() - start))
+        tmstmp = time.time() - start
+        if tmstmp >= 1:
+            print("_rpc call {} lasted {}".format(str(name), tmstmp))
         return call
 
     def _get_depth_noise_sim(self, noise_model_spec):
