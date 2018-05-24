@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import scipy.ndimage
 
 import numpy as np
@@ -178,7 +182,7 @@ class MeasureDistDirTimeVelocity(MeasureDist):
     num_meas = MeasureDist.num_meas + 3
 
     def my_measure(self, observation, episode_info=None):
-        print("episode_info", episode_info, flush=True)
+        #print("episode_info", episode_info, flush=True)
         dirs = observation.get('measurements').get('direction_to_goal')
         vel = observation.get('measurements').get('velocity')
         time_spent = observation.get('time') / self.termination_time
@@ -267,7 +271,7 @@ class MeasureGoalRoomType(Measure):
 
 class MeasureGoalObjectType(Measure):
     def my_measure(self, observation, episode_info=None):# ?? TODO (can they do?) return objectType of goal for current episode
-        print("episode_info['goal']", episode_info['goal'], flush=True)
+        #print("episode_info['goal']", episode_info['goal'], flush=True)
         goalRoomType = episode_info['goal']['roomTypeEncoded']
         return goalRoomType
 
