@@ -222,7 +222,7 @@ class Simulator:
                 my_env = os.environ.copy()
                 my_env['NODE_BASE_URL'] = self.params.NODE_BASE_URL
 
-                simserver_cmd = ['node','--max-old-space-size=8192', path_sim + '/server.js',
+                simserver_cmd = ['node','--max-old-space-size=6144', path_sim + '/server.js',
                                  '-p', str(self.params.port)]
                 if self.params.get('busywait', 0) > 0:
                     simserver_cmd.append('--busywait')

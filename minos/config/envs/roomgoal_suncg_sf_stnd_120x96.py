@@ -14,7 +14,7 @@ config = {
     'scene_filter': lambda s: s['nrooms'] == 2,
     'episode_filter': lambda e: e['pathNumDoors'] > 0,
     'objective_size': 9, # For UNREAL
-    'objecttypes_file': '../../objectTypes_3x.csv',
+    'objecttypes_file': '../../objectTypes_1x.csv',
     'width': 120,
     'height': 96
 }
