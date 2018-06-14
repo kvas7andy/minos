@@ -15,6 +15,8 @@ config = {
     'episode_filter': lambda e: e['pathNumDoors'] > 1,
     'objective_size': 9, # For UNREAL
     'objecttypes_file': '../../objectTypes_1x.csv',
+    #'episodes_per_scene_train': 10,
+    #'max_states_per_scene': 1,
     'width': 88,
     'height': 88
 }
