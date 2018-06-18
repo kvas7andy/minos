@@ -50,7 +50,7 @@ class RoomSimulator:
     def get_random_action(self):
         return [(self.my_rand.random() >= .5) for _ in range(self.num_buttons)]
 
-    def end_episode(self, success, print_episode_stats=False):
+    def end_episode(self, success, print_episode_stats=False, flag=1):
         if print_episode_stats and self.start_time_this_episode is not None:
             time_taken = time.time() - self.start_time_this_episode
             dist = self.get_distance_to_goal()
@@ -71,7 +71,8 @@ class RoomSimulator:
                   % (self.sim.id, self.num_episodes, self.scene_id, time_taken, self.num_steps_this_episode,
                      success, self.num_steps_this_episode / time_taken, self.start_dist, end_dist, path_start_dist,
                      path_numdoors, path_numrooms))
-            print('%s:EPINFO:%d,%s' % (self.sim.id, self.num_episodes, str(self.start_config_this_episode)))
+            if flag:
+                print('%s:EPINFO:%d,%s' % (self.sim.id, self.num_episodes, str(self.start_config_this_episode)))
             sys.stdout.flush()
         self.episode_is_running = False
 
@@ -186,7 +187,7 @@ class RoomSimulator:
         output = self._augment_response(observation, None)
         return {'episode_info': episode_info, 'observation': output}
 
-    def step(self, action):
+    def step(self, action, flag=1):
         self.init()
 
         act_msg = {'name': 'idle', 'strength': 1, 'angle': math.radians(5)}
@@ -205,7 +206,7 @@ class RoomSimulator:
         response = self._augment_response(response, last_observation)
 
         if response['terminals']:
-            self.end_episode(response['success'], print_episode_stats=self.verbose > 1)
+            self.end_episode(response['success'], print_episode_stats=self.verbose > 1, flag=flag)
 
         return response
 
