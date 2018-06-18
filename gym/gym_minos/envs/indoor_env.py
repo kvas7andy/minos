@@ -41,7 +41,7 @@ class IndoorEnv(gym.Env):
     def simulator(self):
         return self._sim.sim
 
-    def _seed(self, seed=None):
+    def _seed(self, seed=0xA3C):
         """Sets the seed for this env's random number generator(s).
         Note:
             Some environments use multiple pseudorandom number generators.
