@@ -66,7 +66,7 @@ sim_defaults = {
     'scenes_file': '../data/scenes.multiroom.csv',
     'states_file': '../data/episode_states.suncg.csv.bz2',
     'roomtypes_file': '../data/roomTypes.suncg.csv',
-    'num_episodes_per_restart': 500,
+    'num_episodes_per_restart': 200,
     'num_episodes_per_scene': 10,
     'max_states_per_scene': 1,
     'episodes_per_scene_test': 1,  # DFP param
